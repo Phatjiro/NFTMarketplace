@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import { ethers } from "ethers";
 import { Row, Col, Card, Button } from "react-bootstrap";
 
+import ic_ethererum from "./svg.svg";
+
 const Home = ({ marketplace, nft }) => {
     
     const [items, setItems] = useState([]);
@@ -73,7 +75,7 @@ const Home = ({ marketplace, nft }) => {
                   <Card.Footer>
                     <div className='d-grid'>
                       <Button onClick={() => buyMarketItem(item)} variant="primary" size="lg">
-                        Buy for {ethers.utils.formatEther(item.totalPrice)} ETH
+                        <img src={ic_ethererum} width="18" height="32" /> {ethers.utils.formatEther(item.totalPrice)} ETH
                       </Button>
                     </div>
                   </Card.Footer>

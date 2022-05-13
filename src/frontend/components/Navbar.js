@@ -7,7 +7,7 @@ const Navigation = ({ web3Handler, account, strButton }) => {
     return (
         <Navbar expand="lg" bg="secondary" variant="dark">
             <Container>
-                <Navbar.Brand href="https://github.com/Phatjiro">
+                <Navbar.Brand href="https://github.com/Phatjiro/NFTMarketplace">
                     <img src={market} width="40" height="40" className="" alt="" />
                     &nbsp; Pet Marketplace
                 </Navbar.Brand>

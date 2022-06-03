@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
-import { Row, Col, Card } from "react-bootstrap";
+import { Row, Col, Card, Button } from "react-bootstrap";
 
 export default function MyPurchases({ marketplace, nft, account }) {
     const [loading, setLoading] = useState(true);
@@ -42,6 +42,23 @@ export default function MyPurchases({ marketplace, nft, account }) {
         loadPurchasedItems()
     }, [])
 
+    const sellAgain = async (item) => {
+        // approve marketplace to spend NFT
+        await (await nft.setApprovalForAll(marketplace.address, true)).wait();
+        // add NFT to marketplace
+        const listingPrice = item.price;
+        console.log(listingPrice + " - dong 12/MyListedItem.js - ")
+        console.log(item.itemId + " - don 13/MyListedItem.js - ")
+        console.log(item.tokenId + " - don 14/MyListedItem.js - ")
+        await (await marketplace.makeOldItem(nft.address, item.itemId, listingPrice, item.itemId)).wait();
+        item.sold = false;
+        console.log(item.sold);
+        loadPurchasedItems();
+    }
+    useEffect(() => {
+        loadPurchasedItems()
+    }, [])
+
     if (loading) return (
         <main style={{ padding: "1rem 0" }}>
             <h2>Đang tải... bạn đợi chút nhé ^^</h2>
@@ -57,7 +74,16 @@ export default function MyPurchases({ marketplace, nft, account }) {
                             <Col key={idx} className="overflow-hidden">
                                 <Card>
                                     <Card.Img variant="top" src={item.image} />
-                                    <Card.Footer>{ethers.utils.formatEther(item.totalPrice)} ETH</Card.Footer>
+                                    <Card.Text>
+                                        {ethers.utils.formatEther(item.totalPrice)} ETH
+                                    </Card.Text>
+                                    <Card.Footer>
+                                        <div className='d-grid'>
+                                            <Button onClick={() => sellAgain(item)} variant="primary" size="lg">
+                                                Sell again
+                                            </Button>
+                                        </div>
+                                    </Card.Footer>
                                 </Card>
                             </Col>
                         ))}

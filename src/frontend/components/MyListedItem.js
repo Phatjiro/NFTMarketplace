@@ -1,8 +1,63 @@
 import { useState, useEffect } from "react";
 import { ethers } from "ethers";
-import { Row, Col, Card } from "react-bootstrap";
+import { Row, Col, Card, Button } from "react-bootstrap";
 
-function renderSoldItems(items) {
+// function renderSoldItems(marketplace, nft, items) {
+
+//     const sellAgain = async (item) => {
+//         // approve marketplace to spend NFT
+//         await (await nft.setApprovalForAll(marketplace.address, true)).wait();
+//         // add NFT to marketplace
+//         const listingPrice = item.price;
+//         console.log(listingPrice + " - dong 12/MyListedItem.js - ")
+//         console.log(item.itemId + " - don 13/MyListedItem.js - ")
+//         console.log(item.tokenId + " - don 14/MyListedItem.js - ")
+//         await (await marketplace.makeOldItem(nft.address, item.itemId, listingPrice, item.itemId)).wait();
+//         item.sold = false;
+//         console.log(item.sold);
+//     }
+
+//     return (
+//         <>
+//             <h2>- Sold -</h2>
+//             <Row xs={1} md={2} lg={4} className="g-4 py-3">
+//                 {items.map((item, idx) => (
+//                     <Col key={idx} className="overflow-hidden">
+//                         <Card>
+//                             <Card.Img variant="top" src={item.image} />
+//                             <Card.Text>
+//                                 For {ethers.utils.formatEther(item.totalPrice)} ETH - Recieved {ethers.utils.formatEther(item.price)} ETH
+//                             </Card.Text>
+//                             <Card.Footer>
+//                                 <div className='d-grid'>
+//                                     <Button onClick={() => sellAgain(item)} variant="primary" size="lg">
+//                                         Sell again
+//                                     </Button>
+//                                 </div>
+//                             </Card.Footer>
+//                         </Card>
+//                     </Col>
+//                 ))}
+//             </Row>
+//         </>
+//     )
+// }
+
+function renderSoldItems(marketplace, nft, items) {
+
+    // const sellAgain = async (item) => {
+    //     // approve marketplace to spend NFT
+    //     await (await nft.setApprovalForAll(marketplace.address, true)).wait();
+    //     // add NFT to marketplace
+    //     const listingPrice = item.price;
+    //     console.log(listingPrice + " - dong 12/MyListedItem.js - ")
+    //     console.log(item.itemId + " - don 13/MyListedItem.js - ")
+    //     console.log(item.tokenId + " - don 14/MyListedItem.js - ")
+    //     await (await marketplace.makeOldItem(nft.address, item.itemId, listingPrice, item.itemId)).wait();
+    //     item.sold = false;
+    //     console.log(item.sold);
+    // }
+
     return (
         <>
             <h2>- Sold -</h2>
@@ -14,6 +69,13 @@ function renderSoldItems(items) {
                             <Card.Footer>
                                 For {ethers.utils.formatEther(item.totalPrice)} ETH - Recieved {ethers.utils.formatEther(item.price)} ETH
                             </Card.Footer>
+                            {/* <Card.Footer>
+                                <div className='d-grid'>
+                                    <Button onClick={() => sellAgain(item)} variant="primary" size="lg">
+                                        Sell again
+                                    </Button>
+                                </div>
+                            </Card.Footer> */}
                         </Card>
                     </Col>
                 ))}
@@ -79,6 +141,7 @@ export default function MyListedItems({ marketplace, nft, account }) {
         </main>
     );
     // Continue later, have to go now!!! 9:18 13/05/2022.
+    
     return (
         <div className="flex justify-center">
             {listedItems.length > 0 ?
@@ -94,7 +157,7 @@ export default function MyListedItems({ marketplace, nft, account }) {
                             </Col>
                         ))}
                     </Row>
-                    {soldItems.length > 0 && renderSoldItems(soldItems)}
+                    {soldItems.length > 0 && renderSoldItems(marketplace, nft, soldItems)}
                 </div>
                 : (
                     <main style={{ padding: "1rem 0" }}>

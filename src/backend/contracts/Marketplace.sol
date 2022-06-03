@@ -85,6 +85,32 @@ contract Marketplace is ReentrancyGuard {
         );
     }
 
+    // IERC721 _nft: Người dùng chuyển đến địa chỉ hợp đồng NFT
+    // Và solidity tự động biến nó thành một phiên bản hợp đồng NFT tiếp theo.
+    function makeOldItem(IERC721 _nft, uint _tokenId, uint _price, uint _itemId) external nonReentrant { // nonReentrant để ngắn kẻ xấu gọi hàm này quá nhiều lần trước khi hàm thực hiện xong.
+        // Kiểm tra để giá phải lớn hơn 0.
+        require(_price > 0, "Price must be greater than zero");
+        // Transfer NFT
+        _nft.transferFrom(msg.sender, address(this), _tokenId);
+        // Add item to items mapping
+        items[_itemId] = Item (
+            _itemId,
+            _nft,
+            _tokenId,
+            _price,
+            payable(msg.sender),
+            false
+        );
+        // emit Offered event: Tạo sự kiện và lưu vào nhật kí. Nhật kí này được lưu vào blockchain.
+        emit Offered (
+            itemCount,
+            address (_nft),
+            _tokenId,
+            _price,
+            msg.sender
+        );
+    }
+
     function purchaseItem(uint _itemId) external payable nonReentrant {
         uint _totalPrice = getTotalPrice(_itemId);
         Item storage item = items[_itemId];

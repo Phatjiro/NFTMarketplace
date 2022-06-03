@@ -47,6 +47,7 @@ const Create = ({ marketplace, nft }) => {
         await (await nft.setApprovalForAll(marketplace.address, true)).wait();
         // add NFT to marketplace
         const listingPrice = ethers.utils.parseEther(price.toString());
+        console.log(typeof(listingPrice) + " - dong 50/Create.js - ")
         await (await marketplace.makeItem(nft.address, id, listingPrice)).wait();
     }
 
